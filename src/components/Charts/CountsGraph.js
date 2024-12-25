@@ -38,15 +38,21 @@ export default function CountsGraph({
       className={`flex flex-col p-4 rounded-md shadow-md ${color.background} bg-opacity-50`}
     >
       {/* Title */}
-      <h4 className="text-lg font-semibold mb-2">{title}</h4>
+      <h4
+        className={`text-lg font-semibold mb-2 capitalize caption-top dark:text-white ${color.text}`}
+      >
+        {title}
+      </h4>
 
       {/* Value Display */}
-      <div className={`text-2xl font-bold ${color.text} mb-2`}>
+      <div
+        className={`text-2xl font-bold ${color.text} dark:text-slate-900  mb-2`}
+      >
         {value} / {total}
       </div>
 
       {/* Progress Bar */}
-      <div className="mb-4">
+      <div className="mb-4 z-0">
         <div className="relative h-4 w-full rounded-2xl bg-gray-200 shadow-inner">
           <div
             className={`h-full rounded-2xl ${color.bar} flex justify-center items-center`}

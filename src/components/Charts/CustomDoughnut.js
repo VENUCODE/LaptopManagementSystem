@@ -11,6 +11,7 @@ export const data = {
     {
       label: "# of Votes",
       data: [12, 19, 3, 5, 2, 3],
+
       backgroundColor: [
         "rgba(255, 99, 132, 0.9)",
         "rgba(54, 162, 235, 0.9)",
@@ -28,15 +29,20 @@ export const data = {
         "rgba(255, 159, 64, 1)",
       ],
       borderWidth: 1,
+      hoverOffset: 20,
     },
   ],
 };
 
 export const options = {
   responsive: true,
+  circumference: 180,
+  rotation: -90,
+  spacing: 10,
   plugins: {
     legend: {
-      position: "right",
+      display: true,
+      position: "bottom",
       labels: {
         font: {
           size: 14,
@@ -51,6 +57,15 @@ export const options = {
         size: 14,
       },
       formatter: (value) => `${value}`,
+    },
+    tooltip: {
+      enabled: true,
+      displayColors: false,
+      callbacks: {
+        label: (context) => {
+          return `${context.dataset.label}: ${context.formattedValue}`;
+        },
+      },
     },
   },
 };

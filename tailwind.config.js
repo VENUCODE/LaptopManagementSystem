@@ -21,7 +21,7 @@ module.exports = {
             "",
         },
         ".custom-card": {
-          "@apply flex border dark:border-blue-700 border-white bg-slate-100 shadow-md bg-opacity-50 dark:bg-blue-900 p-3 rounded-md   justify-center":
+          "@apply flex border border-2 dark:border-blue-700 py-4 border-white bg-slate-100 shadow-md bg-opacity-50 dark:bg-blue-950 p-3 rounded-md   justify-center":
             "",
         },
         ".pattern-light": {

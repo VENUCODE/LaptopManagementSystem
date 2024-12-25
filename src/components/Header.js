@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { FiSun, FiMoon, FiUser } from "react-icons/fi";
+import { FiSun, FiMoon, FiUser, FiSettings } from "react-icons/fi";
 import { FaBars, FaCross, FaTimes } from "react-icons/fa";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
@@ -15,11 +15,10 @@ import { IoClose } from "react-icons/io5";
 
 const navigation = [
   { name: "Overview", href: "/", icon: <FiMonitor />, current: false },
+  { name: "Manage", href: "/manage", icon: <FiSettings />, current: false },
   { name: "Assign", href: "/assign", icon: <FiUserCheck />, current: false },
   { name: "Logs", href: "/logs", icon: <FiTool />, current: false },
-  { name: "Issues", href: "/issues", icon: <FiAlertCircle />, current: false },
   { name: "Reports", href: "/reports", icon: <FiBarChart2 />, current: false },
-  { name: "Profile", href: "/profile", icon: <FiUser />, current: false },
 ];
 
 function classNames(...classes) {
@@ -45,8 +44,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Navbar */}
-      <nav className="dark:bg-black-950 bg-glass text-slate-300 dark:text-slate-50 shadow-md rounded-md ">
+      <nav className=" z-10 dark:bg-black-950 bg-slate-50 bg-opacity-15  bg-glass fixed-top sticky top-0  text-slate-300 dark:text-slate-50 shadow-lg rounded-md ">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <Link to="/" className="w-auto text-blue-900 dark:text-blue-50">
@@ -70,9 +68,9 @@ export default function Navbar() {
                     key={item.name}
                     className={classNames(
                       item.href === currentPath
-                        ? " text-blue-600 underline dark:text-slate-100 bg-opacity-45    font-bold "
+                        ? " text-blue-600 underline dark:text-slate-100 bg-indigo-100   dark:bg-black   font-bold "
                         : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
-                      " dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                      " dark:text-slate-50  rounded-full px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
                     )}
                   >
                     {item.icon}
@@ -119,19 +117,7 @@ export default function Navbar() {
                       </Link>
                     )}
                   </MenuItem>
-                  <MenuItem>
-                    {({ active }) => (
-                      <a
-                        href="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Settings
-                      </a>
-                    )}
-                  </MenuItem>
+
                   <MenuItem>
                     {({ active }) => (
                       <a

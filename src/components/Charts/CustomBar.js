@@ -42,6 +42,7 @@ export const customBarData = {
       ],
       borderWidth: 1,
       borderRadius: 10,
+
     },
   ],
 };

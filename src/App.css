@@ -1,11 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
-    font-family: 'Poppins', sans-serif;
-    box-sizing: content-box;
-    transition: background-color 0.2s, color 0.05s;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  transition:
+    background-color 0.2s,
+    color 0.05s;
 }
 
+.bg-glass {
+  backdrop-filter: blur(40px);
+}
 .custom-card {
-    backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
 }
