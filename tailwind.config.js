@@ -34,6 +34,15 @@ module.exports = {
           "background-position": "50% -90%",
           transition: "background-color 0.2s, color 0.05s",
         },
+        ".filter-btn": {
+          "@apply relative outline outline-slate-100 hover:bg-clip-border dark:text-gray-50   hover:bg-opacity-50  inline-flex items-center justify-center overflow-hidden text-sm font-medium text-gray-900 bg-clip-text rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 border-none  transition-all duration-200":
+            {},
+        },
+
+        ".filter-btn-active": {
+          "@apply relative inline-flex items-center justify-center overflow-hidden text-sm font-medium text-white rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500  dark:text-white outline-none border-none transition-all duration-200":
+            {},
+        },
       });
     },
   ],
