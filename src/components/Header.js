@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { FiSun, FiMoon, FiUser, FiSettings } from "react-icons/fi";
-import { FaBars, FaCross, FaTimes } from "react-icons/fa";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { FiSun, FiMoon, FiSettings } from "react-icons/fi";
+import { FaBars } from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
 import {
   FiHome,
   FiMonitor,
   FiUserCheck,
   FiTool,
-  FiAlertCircle,
   FiBarChart2,
 } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { BsAndroid } from "react-icons/bs";
+import { BsAndroid2 } from "react-icons/bs";
+import { useUser } from "../context/useUser";
 
 const navigation = [
   { name: "Overview", href: "/", icon: <FiMonitor />, current: false },
@@ -20,6 +20,13 @@ const navigation = [
   { name: "Assign", href: "/assign", icon: <FiUserCheck />, current: false },
   { name: "Logs", href: "/logs", icon: <FiTool />, current: false },
   { name: "Reports", href: "/reports", icon: <FiBarChart2 />, current: false },
+
+  {
+    name: "Requests",
+    href: "/requests",
+    icon: <BsAndroid2 />,
+    current: false,
+  },
 ];
 
 function classNames(...classes) {
@@ -30,6 +37,7 @@ export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const location = useLocation();
+  const { logout } = useUser();
   const [currentPath, setCurrentPath] = useState(location.pathname);
 
   useEffect(() => {
@@ -126,15 +134,15 @@ export default function Navbar() {
 
                   <MenuItem>
                     {({ active }) => (
-                      <a
-                        href="#"
+                      <button
+                        onClick={() => logout()}
                         className={classNames(
                           active ? "bg-gray-100" : "",
                           "block px-4 py-2 text-sm text-gray-700"
                         )}
                       >
                         Sign Out
-                      </a>
+                      </button>
                     )}
                   </MenuItem>
                 </MenuItems>

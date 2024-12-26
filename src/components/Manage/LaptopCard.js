@@ -1,7 +1,7 @@
 import React from "react";
 import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa"; // Importing the icons
 
-const LaptopCard = ({ laptop }) => {
+const LaptopCard = ({ laptop, index }) => {
   return (
     <div className="w-full sm:w-[250px] md:w-[300px] lg:w-[300px] xl:w-[300px] 2xl:w-[300px] max-w-[300px] min-w-[250px] rounded overflow-hidden dark:outline-2 outline-blue-500 hover:outline hover:outline-gray-200 custom-bg p-4 dark:shadow-inner shadow-sm dark:shadow-blue-600/40 dark:hover:shadow-md dark:hover:bg-blue-800 dark:hover:bg-opacity-30 dark:hover:shadow-blue-900/40 dark:hover:outline dark:hover:outline-blue-600 hover:bg-slate-50 hover:shadow-md hover:bg-opacity-30">
       <div className="px-6 py-4">

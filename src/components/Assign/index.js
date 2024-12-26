@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { motion } from "framer-motion";
+import { pageVariant } from "../../variants";
 const employees = [
   {
     id: 1,
@@ -60,7 +61,14 @@ const AssignLaptop = () => {
   };
 
   return (
-    <div className="container-fluid sm:px-4 md:px-8 lg:px-16 flex justify-center flex-col">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 0.5 }}
+      variants={pageVariant}
+      className="container-fluid sm:px-4 md:px-8 lg:px-16 flex justify-center flex-col"
+    >
       <div className="container mx-auto  my-3">
         <p className="text-sm text-gray-900 dark:text-white mb-1">
           Search Employee
@@ -110,7 +118,7 @@ const AssignLaptop = () => {
           </tbody>
         </table>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -3,9 +3,19 @@ import DoughnutChart from "./Charts/CustomDoughnut";
 import CustomBarChart from "./Charts/CustomBar";
 
 import CountsGraph from "./Charts/CountsGraph";
+import { motion } from "framer-motion";
+import { pageVariant } from "../variants";
+
 export default function Grid() {
   return (
-    <div className="py-12 sm:py-16  container-fluid  custom-bg pattern-light dark:pattern-dark">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 0.5 }}
+      variants={pageVariant}
+      className="py-12 sm:py-16  container-fluid  custom-bg pattern-light dark:pattern-dark"
+    >
       <p className="text-4xl text-center heading-1">Inventory Overview</p>
       <p className="text-xl  text-center text-indigo-400 dark:text-indigo-50 font-semibold  mb-12 mt-4">
         Current inventory status
@@ -48,6 +58,6 @@ export default function Grid() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
