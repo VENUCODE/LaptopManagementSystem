@@ -12,6 +12,7 @@ import {
   FiBarChart2,
 } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import { BsAndroid } from "react-icons/bs";
 
 const navigation = [
   { name: "Overview", href: "/", icon: <FiMonitor />, current: false },
@@ -28,12 +29,14 @@ function classNames(...classes) {
 export default function Navbar() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
-  const location = useLocation(); // Get the current location
-  const [currentPath, setCurrentPath] = useState(location.pathname); // Initialize state with pathname
+  const location = useLocation();
+  const [currentPath, setCurrentPath] = useState(location.pathname);
 
   useEffect(() => {
-    setCurrentPath(location.pathname); // Update state when pathname changes
+    setCurrentPath(location.pathname);
+    console.log(location.pathname);
   }, [location]);
+
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
@@ -67,7 +70,10 @@ export default function Navbar() {
                     to={item.href}
                     key={item.name}
                     className={classNames(
-                      item.href === currentPath
+                      ((currentPath === item.href ||
+                        currentPath.startsWith(item.href)) &&
+                        item.href !== "/") ||
+                        (currentPath === "/" && item.href === "/")
                         ? " text-blue-600 underline dark:text-slate-100 bg-indigo-100   dark:bg-black   font-bold "
                         : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
                       " dark:text-slate-50  rounded-full px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
@@ -163,10 +169,13 @@ export default function Navbar() {
                   key={item.name}
                   onClick={() => setIsOffcanvasOpen(false)}
                   className={classNames(
-                    item.href === currentPath
-                      ? " text-slate-600 dark:text-slate-100 dark:bg-blue-700 bg-opacity-45 font-bold "
-                      : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
-                    " dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                    ((currentPath === item.href ||
+                      currentPath.startsWith(item.href)) &&
+                      item.href !== "/") ||
+                      (currentPath === "/" && item.href === "/")
+                      ? "text-blue-600 underline dark:text-slate-100 bg-indigo-100 dark:bg-black font-bold"
+                      : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30",
+                    "dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
                   )}
                 >
                   {item.icon}

@@ -3,30 +3,30 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { Tab, TabGroup, TabList } from "@headlessui/react";
 
 const tablinks = [
-  { name: "List", link: "/list" },
-  { name: "Add", link: "/add" },
+  { name: "List", link: "/manage/list" },
+  { name: "Add", link: "/manage/add" },
 ];
 
 const ManageLaptops = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col container  mx-auto mt-10  ">
+    <div className="min-h-screen flex flex-col container  mx-auto mt-10 shadow-md shadow-gray-300/50 dark:shadow-indigo-300/50  ">
       {/* Header Section */}
-      <div className="pattern-light dark:pattern-dark">
+      <div className="bg-glass  ">
         {/* Row for Heading and Tabs */}
         <div className="container-fluid relative ">
-          <div className="flex justify-between flex-row items-center  bg-white bg-glass dark:bg-indigo-950  rounded-tl-md">
-            <div className="text-2xl text-balance font-semibold text-blue-300 dark:text-blue-400 md:ms-4 ">
+          <div className="flex justify-between flex-row items-center  bg-white bg-glass dark:bg-slate-950    rounded-t-md">
+            <div className="text-2xl text-balance font-semibold text-blue-300 dark:text-blue-400 ms-4 ">
               Manage Laptops
             </div>
-            <div className="bg-gray-100 dark:bg-slate-950 p-2 rounded-tr-md rounded-bl-md">
+            <div className="bg-gray-100 dark:bg-slate-950 shadow-inner shadow-gray-400/50 dark:shadow-blue-400/50 p-2 rounded-tr-md rounded-bl-md">
               <TabGroup>
                 <TabList className=" flex flex-row gap-2  ">
                   {tablinks.map(({ name, link }) => (
                     <Tab
                       key={name}
-                      onClick={() => navigate("/manage" + link)}
+                      onClick={() => navigate(link)}
                       className={({ selected }) =>
                         `px-4 py-1 rounded-md text-md font-medium transition-all ${
                           selected
@@ -44,7 +44,7 @@ const ManageLaptops = () => {
           </div>
         </div>
       </div>
-      <div className="flex-grow bg-white dark:bg-indigo-950  container p-4">
+      <div className="flex-grow bg-white dark:bg-slate-950 shadow-sm  container p-4">
         <Outlet />
       </div>
     </div>

@@ -35,7 +35,7 @@ module.exports = {
           transition: "background-color 0.2s, color 0.05s",
         },
         ".filter-btn": {
-          "@apply relative outline outline-slate-100 hover:bg-clip-border dark:text-gray-50   hover:bg-opacity-50  inline-flex items-center justify-center overflow-hidden text-sm font-medium text-gray-900 bg-clip-text rounded-lg bg-gradient-to-br from-cyan-500 to-blue-500 border-none  transition-all duration-200":
+          "@apply relative bg-blue-900 bg-opacity-40  dark:hover:bg-blue-700 dark:hover:bg-opacity-75 dark:text-gray-50    transition-all duration-200":
             {},
         },
 

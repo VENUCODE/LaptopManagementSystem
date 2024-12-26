@@ -20,7 +20,7 @@ const LaptopCardContainer = () => {
   return (
     <div className="flex flex-col gap-4">
       <Filters laptops={laptops} setCurrentLaptops={setCurrentLaptops} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="flex flex-row flex-wrap justify-evenly gap-3">
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
           <LaptopCard key={i} laptop={laptop} />
         ))}

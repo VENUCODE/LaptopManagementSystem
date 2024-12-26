@@ -6,6 +6,9 @@ import Overview from "./components/OverView";
 import ManageLaptops from "./components/Manage";
 import AddLaptop from "./components/Manage/AddLaptop";
 import ListLaptop from "./components/Manage/ListLaptop";
+import AssignLaptop from "./components/Assign";
+import Reports from "./components/Reports";
+import Logs from "./components/Logs";
 
 function App() {
   return (
@@ -13,7 +16,11 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Overview />} />
+        <Route path="/assign" element={<AssignLaptop />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/Logs" element={<Logs />} />
         <Route path="/manage" element={<ManageLaptops />}>
+          <Route index element={<ListLaptop />} />
           <Route path="list" element={<ListLaptop />} />
           <Route path="add" element={<AddLaptop />} />
         </Route>
