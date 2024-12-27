@@ -47,6 +47,7 @@ function AnimatedRoutes() {
               </EmployeeProvider>
             }
           />
+
           <Route path="/reports" element={<Reports />} />
           <Route path="/logs" element={<Logs />} />
           <Route path="/requests" element={<LaptopRequests />} />

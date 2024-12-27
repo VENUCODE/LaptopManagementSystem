@@ -10,5 +10,9 @@ export const endpoints = {
   getemployees: "/api/employee/getall",
   getemployee: "/api/employee/get/",
   assignLaptop: "/api/admin/assign",
-  unassignLaptop:"/api/admin/unassign/",
+  unassignLaptop: "/api/admin/unassign/",
+  getissues: "/api/admin/issues",
+  getrequests: "/api/admin/requests",
+  requestAction: "/api/admin/request-action/",
+  issueUpdate: "/api/admin/issue/",
 };

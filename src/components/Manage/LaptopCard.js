@@ -50,10 +50,10 @@ const LaptopCard = ({ laptop }) => {
             <span
               className={`inline-block float-right px-2  text-xs font-semibold rounded-full ${
                 laptop.status === "assigned"
-                  ? "bg-orange-200 dark:bg-red-200/50 text-red-800 dark:text-red-400"
+                  ? "bg-orange-200 dark:bg-red-200/30 text-red-800 dark:text-red-400"
                   : laptop.status === "available"
-                    ? "bg-green-200 dark:bg-green-200/50 text-green-800 dark:text-green-400"
-                    : "bg-amber-200 dark:bg-amber-200/50 text-amber-800 dark:text-amber-400"
+                    ? "bg-green-200 dark:bg-green-200/30 text-green-800 dark:text-green-400"
+                    : "bg-amber-200 dark:bg-amber-200/30 text-amber-800 dark:text-amber-400"
               }`}
             >
               {laptop.status.charAt(0).toUpperCase() + laptop.status.slice(1)}

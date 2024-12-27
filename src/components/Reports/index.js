@@ -1,41 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { pageVariant } from "../../variants";
-// Sample Laptop Issues Data
-const laptopIssues = [
-  {
-    id: 1,
-    laptopId: "LPT-001",
-    priority: "High",
-    reportedBy: "John Doe",
-    status: "Open",
-    reportedAt: "2024-06-01",
-  },
-  {
-    id: 2,
-    laptopId: "LPT-002",
-    priority: "Medium",
-    reportedBy: "Jane Smith",
-    status: "In Progress",
-    reportedAt: "2024-06-15",
-  },
-  {
-    id: 3,
-    laptopId: "LPT-003",
-    priority: "Low",
-    reportedBy: "Alice Johnson",
-    status: "Resolved",
-    reportedAt: "2024-06-20",
-  },
-];
+import { endpoints, hosturl } from "../../api";
+import ReactTimeago from "react-timeago";
+import { useUser } from "../../context/useUser";
+import { message } from "antd";
 
 const LaptopIssues = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredIssues, setFilteredIssues] = useState(laptopIssues);
+  const [issues, setIssues] = useState([]);
+  const [filteredIssues, setFilteredIssues] = useState([]);
+  const { authToken } = useUser();
+  const getIssues = async () => {
+    try {
+      const response = await fetch(hosturl + endpoints.getissues, {
+        method: "GET",
+        headers: {
+          Authorization: authToken,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      setIssues(data);
+      setFilteredIssues(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleIssue = async (issueId, status, laptop) => {
+    try {
+      const response = await fetch(hosturl + endpoints.issueUpdate + issueId, {
+        method: "PATCH",
+        headers: {
+          Authorization: authToken,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status, laptop }),
+      });
+      const data = await response.json();
+      if (data.status === true) {
+        message.success("Issue action updated");
+        getIssues();
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
-    const filtered = laptopIssues.filter(
+    const filtered = issues.filter(
       (issue) =>
         issue.laptopId.toLowerCase().includes(term) ||
         issue.priority.toLowerCase().includes(term) ||
@@ -45,6 +60,12 @@ const LaptopIssues = () => {
     );
     setFilteredIssues(filtered);
   };
+  useEffect(() => {
+    setFilteredIssues(issues);
+  }, [issues]);
+  useEffect(() => {
+    getIssues();
+  }, []);
 
   return (
     <motion.div
@@ -55,7 +76,6 @@ const LaptopIssues = () => {
       variants={pageVariant}
       className="container mx-auto p-6 flex flex-col"
     >
-      {/* Search Bar */}
       <div className="mb-4">
         <p className="text-sm text-gray-900 dark:text-white mb-2">
           Search Laptop Issues
@@ -68,13 +88,12 @@ const LaptopIssues = () => {
         />
       </div>
 
-      {/* Laptop Issues Table */}
       <div className="relative w-full overflow-x-auto rounded-t-md container mx-auto min-h-screen">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                Laptop ID
+                SerialNumber
               </th>
               <th scope="col" className="px-6 py-3">
                 Priority
@@ -94,48 +113,65 @@ const LaptopIssues = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredIssues.map((issue) => (
-              <tr
-                key={issue.id}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  {issue.laptopId}
-                </td>
-                <td className="px-6 py-4">
-                  <span
-                    className={`px-2 py-1 rounded-md text-xs ${
-                      issue.priority === "High"
-                        ? "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
-                        : issue.priority === "Medium"
-                          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200"
-                          : "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200"
+            {filteredIssues &&
+              filteredIssues?.map((issue) => (
+                <tr
+                  key={issue._id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {issue.laptop?.serialNumber}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span
+                      className={`px-2 w-100 text-center py-1 rounded-md text-xs ${
+                        issue.priority === "high"
+                          ? "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200"
+                          : issue.priority === "medium"
+                            ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200"
+                            : "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200"
+                      }`}
+                    >
+                      {issue.priority}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">{issue.employee?.email}</td>
+                  <td
+                    className={`px-6 py-4 ${
+                      issue.status === "pending"
+                        ? "text-yellow-400"
+                        : "text-amber-600"
                     }`}
                   >
-                    {issue.priority}
-                  </span>
-                </td>
-                <td className="px-6 py-4">{issue.reportedBy}</td>
-                <td
-                  className={`px-6 py-4 ${
-                    issue.status === "Open"
-                      ? "text-yellow-600"
-                      : issue.status === "In Progress"
-                        ? "text-blue-600"
-                        : "text-green-600"
-                  }`}
-                >
-                  {issue.status}
-                </td>
-                <td className="px-6 py-4">{issue.reportedAt}</td>
-                <td className="px-6 py-4">
-                  <button className="font-medium text-blue-600 dark:text-blue-400 hover:underline">
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filteredIssues.length === 0 && (
+                    {issue.status}
+                  </td>
+                  <td className="px-6 py-4 text-xs">
+                    <ReactTimeago date={issue.reportedAt} />
+                  </td>
+                  <td className="px-6 py-4 flex flex-col gap-y-2">
+                    {issue.status === "raised" ? (
+                      <button
+                        onClick={() =>
+                          handleIssue(issue._id, "pending", issue.laptop._id)
+                        }
+                        className="paginate-btn text-xs w-full outline     outline-2  py-1 flex justify-center outline-blue-500  dark:text-blue-400 dark:bg-blue-400/40 dark:hover:bg-blue-400 dark:hover:text-white"
+                      >
+                        Take Action
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() =>
+                          handleIssue(issue._id, "resolved", issue.laptop._id)
+                        }
+                        className="paginate-btn text-xs w-full outline   outline-2 py-1 flex justify-center outline-green-500 dark:text-green-400 dark:bg-green-400/40 dark:hover:bg-green-400 dark:hover:text-white"
+                      >
+                        Resolve
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            {filteredIssues && filteredIssues.length === 0 && (
               <tr>
                 <td
                   colSpan="6"
