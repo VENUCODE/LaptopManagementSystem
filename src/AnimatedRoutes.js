@@ -5,6 +5,7 @@ import "./App.css";
 import { AnimatePresence } from "framer-motion";
 
 import { useUser } from "./context/useUser";
+import { LaptopProvider } from "./context/useLaptops";
 
 const Overview = lazy(() => import("./components/OverView"));
 const ManageLaptops = lazy(() => import("./components/Manage"));
@@ -53,7 +54,13 @@ function AnimatedRoutes() {
         <Route
           path="/manage"
           element={
-            isAuthenticated ? <ManageLaptops /> : <Navigate to="/login" />
+            isAuthenticated ? (
+              <LaptopProvider>
+                <ManageLaptops />
+              </LaptopProvider>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         >
           <Route

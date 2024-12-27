@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useUser } from "../context/useUser";
-import { endpoints, hosturl } from "../api";
+
 import { useState } from "react";
 import { pageVariant } from "../variants";
 import { motion } from "framer-motion";
@@ -13,7 +12,6 @@ export default function LoginComponent() {
     const { email, password, role } = e.target.elements;
     login(
       { email: email.value, password: password.value, role: role.value },
-
       setLoading
     );
   };
@@ -115,7 +113,7 @@ export default function LoginComponent() {
                   disabled={loading}
                   className="flex w-full justify-center rounded-md bg-indigo-700 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  {loading ? "loading...." : "Sign in"}
+                  {loading ? "signing you in...." : "Sign in"}
                 </button>
               </div>
             </form>

@@ -1,18 +1,18 @@
-import { createContext, useContext, useState } from "react";
-
+import { createContext, useContext, useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import { endpoints, hosturl } from "../api";
+import { message } from "antd";
 
 export const UserContext = createContext();
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authToken, setAuthToken] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const [error, setError] = useState(null);
 
   const login = async (credentials, setLoading) => {
     const { email, password, role } = credentials;
-    console.log("Credentials:", email, password, role);
 
     try {
       setLoading(true);
@@ -33,34 +33,73 @@ export const UserProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log("Response Data:", data);
 
-      // Ensure these updates happen before re-render
+      // Validate token
+      const decodedToken = jwtDecode(data.token);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        throw new Error("Token has expired. Please log in again.");
+      }
+
       setUser(data.user);
       setAuthToken(data.token);
-      setIsAuthenticated(true); // Explicitly set authentication status
+      setIsAuthenticated(true);
 
-      // Store data in localStorage
       localStorage.setItem("authToken", data.token);
+      localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      console.log("isAuthenticated After Login:", true); // For debugging
+      message.success("Login successful", 2);
     } catch (error) {
       console.error("Login Error:", error.message);
-      setError(
-        error.response?.data?.error || "An error occurred during login."
-      );
+      message.error(error.message, 2);
     } finally {
       setLoading(false);
     }
   };
+
+  // 🛡️ CHECK IF USER IS LOGGED IN
+  const checkLoggedIn = () => {
+    const token = localStorage.getItem("authToken");
+    const storedUser = localStorage.getItem("user");
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
+
+    try {
+      if (token && storedUser && isAuthenticated) {
+        const decodedToken = jwtDecode(token);
+
+        // Check token expiration
+        if (decodedToken.exp * 1000 < Date.now()) {
+          throw new Error("Token has expired. Please log in again.");
+        }
+
+        setAuthToken(token);
+        setUser(JSON.parse(storedUser));
+        setIsAuthenticated(true);
+      } else {
+        logout();
+      }
+    } catch (error) {
+      console.error("Token Validation Error:", error.message);
+      logout();
+    }
+  };
+
   const logout = () => {
     setUser(null);
     setAuthToken(null);
     setIsAuthenticated(false);
+    localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
+    message.error("Logged out", 2);
   };
+
+  useEffect(() => {
+    if(authToken){
+      
+    }
+    checkLoggedIn();
+  }, [authToken]);
 
   return (
     <UserContext.Provider

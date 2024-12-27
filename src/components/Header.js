@@ -39,6 +39,7 @@ export default function Navbar() {
   const location = useLocation();
   const { logout } = useUser();
   const [currentPath, setCurrentPath] = useState(location.pathname);
+  const { authToken } = useUser();
 
   useEffect(() => {
     setCurrentPath(location.pathname);
@@ -152,7 +153,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Offcanvas Sidebar */}
       {isOffcanvasOpen && (
         <>
           <div

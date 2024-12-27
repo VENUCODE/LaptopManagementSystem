@@ -3,10 +3,6 @@ import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { pageVariant } from "../../variants";
-const tablinks = [
-  { name: "List", link: "/manage/list" },
-  { name: "Add", link: "/manage/add" },
-];
 
 const ManageLaptops = () => {
   const navigate = useNavigate();
@@ -25,7 +21,7 @@ const ManageLaptops = () => {
         {/* Row for Heading and Tabs */}
         <div className="container-fluid relative ">
           <div className="flex justify-between flex-row items-center  bg-white bg-glass dark:bg-slate-950    rounded-t-md">
-            <div className="text-2xl text-balance font-semibold text-blue-300 dark:text-blue-400 ms-4 ">
+            <div className="text-2xl text-balance font-semibold text-blue-400 dark:text-blue-500 ms-4 ">
               Manage Laptops
             </div>
             <div className="bg-gray-100 dark:bg-slate-950 shadow-inner shadow-gray-400/50 dark:shadow-blue-400/50 p-2 rounded-tr-md rounded-bl-md">
@@ -44,12 +40,13 @@ const ManageLaptops = () => {
                   <Tab
                     onClick={() => navigate("/manage/list")}
                     className={`px-4 py-1 rounded-md text-md font-medium transition-all ${
-                      location.pathname === "/manage/list"
+                      location.pathname === "/manage/list" ||
+                      location.pathname === "/manage"
                         ? "bg-blue-500 text-white"
                         : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
                     }`}
                   >
-                    list
+                    List
                   </Tab>
                 </TabList>
               </TabGroup>
