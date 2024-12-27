@@ -43,6 +43,14 @@ module.exports = {
           "@apply relative inline-flex items-center justify-center overflow-hidden text-sm font-medium text-white rounded-lg bg-gradient-to-br from-blue-500 to-indigo-500  dark:text-white outline-none border-none transition-all duration-200":
             {},
         },
+        ".paginate-btn": {
+          "@apply p-2  text-sm  text-blue-600 hover:text-white text-center flex items-center rounded-full bg-blue-500/10 dark:bg-blue-500/30 cursor-pointer hover:bg-blue-500":
+            "",
+        },
+        ".action-btn": {
+          "@apply bg-blue-500/10 focus:shadow-md focus:shadow-blue-800 dark:focus:shadow-none dark:focus:bg-indigo-400 dark:focus:text-white w-full px-4 py-2 text-sm  text-blue-500 rounded-lg hover:bg-blue-500 hover:text-blue-50 dark:bg-indigo-500/20 dark:text-indigo-400 hover:dark:bg-indigo-500 hover:dark:text-indigo-50":
+            " ",
+        },
       });
     },
   ],

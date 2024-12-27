@@ -127,7 +127,9 @@ const LaptopCard = ({ laptop }) => {
 
       <Modal footer={null} open={open} onCancel={closeModal} destroyOnClose>
         {action === "view" && <LaptopView laptop={laptop} />}
-        {action === "edit" && <UpdateLaptop close={closeModal} INITIAL={laptop} />}
+        {action === "edit" && (
+          <UpdateLaptop close={closeModal} INITIAL={laptop} />
+        )}
         {action === "delete" && (
           <div className="flex flex-col justify-center items-center">
             <h2 className="text-lg font-bold mb-4">

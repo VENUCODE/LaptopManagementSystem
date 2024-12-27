@@ -11,22 +11,23 @@ import {
   FiBarChart2,
 } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { BsAndroid2 } from "react-icons/bs";
+
 import { useUser } from "../context/useUser";
+import { Avatar } from "antd";
+
+import { MdDashboard } from "react-icons/md";
 
 const navigation = [
-  { name: "Overview", href: "/", icon: <FiMonitor />, current: false },
-  { name: "Manage", href: "/manage", icon: <FiSettings />, current: false },
-  { name: "Assign", href: "/assign", icon: <FiUserCheck />, current: false },
-  { name: "Logs", href: "/logs", icon: <FiTool />, current: false },
-  { name: "Reports", href: "/reports", icon: <FiBarChart2 />, current: false },
-
-  {
-    name: "Requests",
-    href: "/requests",
-    icon: <BsAndroid2 />,
-    current: false,
-  },
+  { name: "Overview", href: "/", icon: <FiHome /> },
+  { name: "Manage", href: "/manage", icon: <FiSettings /> },
+  { name: "Assign", href: "/assign", icon: <FiUserCheck /> },
+  { name: "Reports", href: "/reports", icon: <FiBarChart2 /> },
+  { name: "Requests", href: "/requests", icon: <FiTool /> },
+  { name: "Logs", href: "/logs", icon: <FiMonitor /> },
+  { name: "Dashboard", href: "/dashboard", icon: <MdDashboard /> },
+  { name: "Assigned", href: "/assignedlaptops", icon: <FiUserCheck /> },
+  { name: "Request", href: "/requestlaptop", icon: <FiTool /> },
+  { name: "Report", href: "/reportlaptop", icon: <FiBarChart2 /> },
 ];
 
 function classNames(...classes) {
@@ -34,23 +35,26 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
+
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const location = useLocation();
-  const { logout } = useUser();
+  const { logout, user, isAuthenticated } = useUser();
   const [currentPath, setCurrentPath] = useState(location.pathname);
-  const { authToken } = useUser();
 
   useEffect(() => {
     setCurrentPath(location.pathname);
-    console.log(location.pathname);
   }, [location]);
 
   useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
   }, [isDarkMode]);
 
@@ -74,32 +78,49 @@ export default function Navbar() {
 
             <div className="hidden sm:block">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <Link
-                    to={item.href}
-                    key={item.name}
-                    className={classNames(
-                      ((currentPath === item.href ||
-                        currentPath.startsWith(item.href)) &&
-                        item.href !== "/") ||
-                        (currentPath === "/" && item.href === "/")
-                        ? " text-blue-600 underline dark:text-slate-100 bg-indigo-100   dark:bg-black   font-bold "
-                        : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
-                      " dark:text-slate-50  rounded-full px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
-                    )}
-                  >
-                    {item.icon}
-                    {item.name}
-                  </Link>
-                ))}
+                {user.role === "admin" &&
+                  navigation.slice(0, 6).map((item) => (
+                    <Link
+                      to={item.href}
+                      key={item.name}
+                      className={classNames(
+                        ((currentPath === item.href ||
+                          currentPath.startsWith(item.href)) &&
+                          item.href !== "/") ||
+                          (currentPath === "/" && item.href === "/")
+                          ? " text-blue-600 underline dark:text-slate-100 bg-indigo-100   dark:bg-black   font-bold "
+                          : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
+                        " dark:text-slate-50  rounded-full px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                      )}
+                    >
+                      {item.icon}
+                      {item.name}
+                    </Link>
+                  ))}
+                {user?.role === "employee" &&
+                  navigation.slice(6).map((item) => (
+                    <Link
+                      to={item.href}
+                      key={item.name}
+                      className={classNames(
+                        ((currentPath === item.href ||
+                          currentPath.startsWith(item.href)) &&
+                          item.href !== "/") ||
+                          (currentPath === "/" && item.href === "/")
+                          ? " text-blue-600 underline dark:text-slate-100 bg-indigo-100   dark:bg-black   font-bold "
+                          : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30  ",
+                        " dark:text-slate-50  rounded-full px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                      )}
+                    >
+                      {item.icon}
+                      {item.name}
+                    </Link>
+                  ))}
               </div>
             </div>
-
-            {/* Actions: Theme Toggle & Profile */}
             <div className="flex items-center gap-4">
-              {/* Theme Toggle */}
               <button
-                onClick={() => setIsDarkMode(!isDarkMode)}
+                onClick={() => setIsDarkMode((prev) => !prev)}
                 className="p-2 rounded-md text-gray-400 hover:text-slate-300 dark:text-slate-50 hover:bg-primary-100 focus:outline-none"
               >
                 {isDarkMode ? (
@@ -109,27 +130,23 @@ export default function Navbar() {
                 )}
               </button>
 
-              {/* Profile Dropdown */}
               <Menu as="div" className="relative">
-                <MenuButton className="flex rounded-full bg-gray-800 text-sm focus:outline-none">
-                  <img
-                    className="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
-                    alt="User"
-                  />
+                <MenuButton className="flex rounded-full bg-indigo-600 dark:bg-blue-400 text-sm focus:outline-none">
+                  <Avatar className="uppercase text-lg outline outline-2 dark:outline-blue-200 shadow-md shadow-blue-lime-200 outline-indigo-500">
+                    {user?.email?.split("").at(0)}
+                  </Avatar>
                 </MenuButton>
                 <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5">
                   <MenuItem>
                     {({ active }) => (
-                      <Link
-                        to="/profile"
+                      <button
                         className={classNames(
                           active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
+                          "block px-4 py-2 text-sm text-gray-700 w-full"
                         )}
                       >
-                        Your Profile
-                      </Link>
+                        {user?.email}
+                      </button>
                     )}
                   </MenuItem>
 
@@ -139,7 +156,7 @@ export default function Navbar() {
                         onClick={() => logout()}
                         className={classNames(
                           active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
+                          "block px-4 py-2 text-sm text-white w-100 rounded-md mx-auto bg-red-500"
                         )}
                       >
                         Sign Out

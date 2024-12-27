@@ -6,6 +6,10 @@ import { AnimatePresence } from "framer-motion";
 
 import { useUser } from "./context/useUser";
 import { LaptopProvider } from "./context/useLaptops";
+import { EmployeeProvider } from "./context/useEmployee";
+import ProtectedRoutes from "./ProtectedRoutes";
+import Unauthorized from "./Unauthorized";
+import Dashboard from "./components/Employee";
 
 const Overview = lazy(() => import("./components/OverView"));
 const ManageLaptops = lazy(() => import("./components/Manage"));
@@ -17,71 +21,54 @@ const Logs = lazy(() => import("./components/Logs"));
 const LaptopRequests = lazy(() => import("./components/Requests"));
 const Login = lazy(() => import("./components/Login"));
 function AnimatedRoutes() {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, user } = useUser();
   const location = useLocation();
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes key={location.pathname} location={location}>
         <Route
           path="/login"
-          element={!isAuthenticated ? <Login /> : <Navigate to="/" />}
+          element={
+            !isAuthenticated ? (
+              <Login />
+            ) : (
+              <Navigate to={user?.role === "admin" ? "/" : "/dashboard"} />
+            )
+          }
         />
 
-        <Route
-          path="/"
-          element={isAuthenticated ? <Overview /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/assign"
-          element={
-            isAuthenticated ? <AssignLaptop /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/reports"
-          element={isAuthenticated ? <Reports /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/logs"
-          element={isAuthenticated ? <Logs /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/requests"
-          element={
-            isAuthenticated ? <LaptopRequests /> : <Navigate to="/login" />
-          }
-        />
-        <Route
-          path="/manage"
-          element={
-            isAuthenticated ? (
+        <Route element={<ProtectedRoutes allowedRoles={["admin"]} />}>
+          <Route path="/" element={<Overview />} />
+          <Route
+            path="/assign"
+            element={
+              <EmployeeProvider>
+                <AssignLaptop />
+              </EmployeeProvider>
+            }
+          />
+          <Route path="/reports" element={<Reports />} />
+          <Route path="/logs" element={<Logs />} />
+          <Route path="/requests" element={<LaptopRequests />} />
+          <Route
+            path="/manage"
+            element={
               <LaptopProvider>
                 <ManageLaptops />
               </LaptopProvider>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        >
-          <Route
-            index
-            element={
-              isAuthenticated ? <ListLaptop /> : <Navigate to="/login" />
             }
-          />
-          <Route
-            path="list"
-            element={
-              isAuthenticated ? <ListLaptop /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="add"
-            element={isAuthenticated ? <AddLaptop /> : <Navigate to="/login" />}
-          />
+          >
+            <Route index element={<ListLaptop />} />
+            <Route path="list" element={<ListLaptop />} />
+            <Route path="add" element={<AddLaptop />} />
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoutes allowedRoles={["employee"]} />}>
+          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
-        <Route path="/*" element={<Navigate to="/login" />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </AnimatePresence>
   );

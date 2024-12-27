@@ -9,4 +9,6 @@ export const endpoints = {
   addnewlaptop: "/api/laptops/addnew",
   getemployees: "/api/employee/getall",
   getemployee: "/api/employee/get/",
+  assignLaptop: "/api/admin/assign",
+  unassignLaptop:"/api/admin/unassign/",
 };

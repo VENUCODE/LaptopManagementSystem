@@ -34,7 +34,6 @@ export const UserProvider = ({ children }) => {
 
       const data = await response.json();
 
-      // Validate token
       const decodedToken = jwtDecode(data.token);
       if (decodedToken.exp * 1000 < Date.now()) {
         throw new Error("Token has expired. Please log in again.");
@@ -48,7 +47,7 @@ export const UserProvider = ({ children }) => {
       localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      message.success("Login successful", 2);
+      message.success("Login successful", 1);
     } catch (error) {
       console.error("Login Error:", error.message);
       message.error(error.message, 2);
@@ -57,7 +56,6 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // 🛡️ CHECK IF USER IS LOGGED IN
   const checkLoggedIn = () => {
     const token = localStorage.getItem("authToken");
     const storedUser = localStorage.getItem("user");
@@ -67,7 +65,6 @@ export const UserProvider = ({ children }) => {
       if (token && storedUser && isAuthenticated) {
         const decodedToken = jwtDecode(token);
 
-        // Check token expiration
         if (decodedToken.exp * 1000 < Date.now()) {
           throw new Error("Token has expired. Please log in again.");
         }
@@ -76,7 +73,9 @@ export const UserProvider = ({ children }) => {
         setUser(JSON.parse(storedUser));
         setIsAuthenticated(true);
       } else {
-        logout();
+        setUser(null);
+        setAuthToken(null);
+        setIsAuthenticated(false);
       }
     } catch (error) {
       console.error("Token Validation Error:", error.message);
@@ -91,13 +90,10 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem("isAuthenticated");
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
-    message.error("Logged out", 2);
+    message.error("Logged out", 1);
   };
 
   useEffect(() => {
-    if(authToken){
-      
-    }
     checkLoggedIn();
   }, [authToken]);
 

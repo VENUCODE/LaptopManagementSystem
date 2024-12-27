@@ -4,6 +4,7 @@ import Filters from "./Filters";
 import { containerVariant } from "../../variants";
 import { motion } from "framer-motion";
 import { useLaptop } from "../../context/useLaptops";
+
 const LaptopCardContainer = () => {
   const { laptops } = useLaptop();
 
