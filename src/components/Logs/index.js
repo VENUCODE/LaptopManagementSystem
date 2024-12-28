@@ -27,7 +27,7 @@ const Logs = () => {
       });
       const data = await response.json();
       setLogData(data);
-      setFilteredLogs(data); // Initialize filteredLogs with all data
+      setFilteredLogs(data);
     } catch (error) {
       console.error(error);
     } finally {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DoughnutChart from "./Charts/CustomDoughnut";
-import CustomBarChart from "./Charts/CustomBar";
+
 import CountsGraph from "./Charts/CountsGraph";
 import { motion } from "framer-motion";
 import { endpoints, hosturl } from "../api";
@@ -49,8 +48,7 @@ export default function Grid() {
         exit="exit"
         className="py-12 sm:py-16 container-fluid custom-bg pattern-light dark:pattern-dark"
       >
-        <p className="text-4xl text-center heading-1">Inventory Overview</p>
-        <p className="text-xl text-center text-indigo-400 dark:text-indigo-50 font-semibold mb-12 mt-4">
+        <p className="text-md sm:text-xl text-center text-indigo-400 dark:text-indigo-50 font-semibold mb-12 mt-4">
           Loading inventory data...
         </p>
 

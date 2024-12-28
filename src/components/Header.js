@@ -26,7 +26,7 @@ const navigation = [
   { name: "Logs", href: "/logs", icon: <FiMonitor /> },
   { name: "Dashboard", href: "/dashboard", icon: <MdDashboard /> },
   { name: "Assigned", href: "/assignedlaptops", icon: <FiUserCheck /> },
-  { name: "Request", href: "/requestlaptop", icon: <FiTool /> },
+  { name: "Request", href: "/request-laptop", icon: <FiTool /> },
   { name: "Report", href: "/reportlaptop", icon: <FiBarChart2 /> },
 ];
 

@@ -10,6 +10,9 @@ import { EmployeeProvider } from "./context/useEmployee";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Unauthorized from "./Unauthorized";
 import Dashboard from "./components/Employee";
+import RequestLaptop from "./components/Employee/RequestLaptop";
+import { EmployeeLaptopsProvider } from "./context/useEmployeeLaptops";
+import EmployeeReports from "./components/Employee/AllReports";
 
 const Overview = lazy(() => import("./components/OverView"));
 const ManageLaptops = lazy(() => import("./components/Manage"));
@@ -65,7 +68,16 @@ function AnimatedRoutes() {
           </Route>
         </Route>
         <Route element={<ProtectedRoutes allowedRoles={["employee"]} />}>
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <EmployeeLaptopsProvider>
+                <Dashboard />
+              </EmployeeLaptopsProvider>
+            }
+          />
+          <Route path="/request-laptop" element={<RequestLaptop />} />
+          <Route path="/reportlaptop" element={<EmployeeReports />} />
         </Route>
 
         <Route path="/unauthorized" element={<Unauthorized />} />

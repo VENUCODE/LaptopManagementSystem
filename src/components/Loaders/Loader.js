@@ -8,8 +8,9 @@ const Loader = ({ className = "h-4 w-full rounded-md" }) => {
   );
 };
 
-export const TableLoader = () => {
-  const rows = Array(8).fill(0);
+export const TableLoader = ({ colCount = 4, rowCount = 5 }) => {
+  const rows = Array(rowCount).fill(0);
+  const columns = Array(colCount).fill(0);
   return (
     <div className="mt-10 px-4 sm:px-0 container w-full h-full">
       <div className="w-full flex flex-row justify-between gap-2 ">
@@ -20,10 +21,12 @@ export const TableLoader = () => {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 ">
         <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            {[1, 2, 3].map((i) => {
-              <th scope="col" className="px-6 py-3">
-                <Loader className="h-4 w-20" />
-              </th>;
+            {columns.map((i) => {
+              return (
+                <th scope="col" className="px-6 py-3">
+                  <Loader className="h-4 w-20" />
+                </th>
+              );
             })}
           </tr>
         </thead>
