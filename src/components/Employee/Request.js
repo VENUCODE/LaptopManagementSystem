@@ -7,7 +7,7 @@ const Request = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate an API call
+
     setTimeout(() => {
       alert("Laptop requested successfully!");
       setLoading(false);

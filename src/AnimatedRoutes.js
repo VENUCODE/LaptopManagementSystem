@@ -24,7 +24,7 @@ function AnimatedRoutes() {
   const { isAuthenticated, user } = useUser();
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence mode="wait">
       <Routes key={location.pathname} location={location}>
         <Route
           path="/login"

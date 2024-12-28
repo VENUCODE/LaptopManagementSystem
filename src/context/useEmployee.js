@@ -18,8 +18,8 @@ export const EmployeeProvider = ({ children }) => {
     setOpen(false);
   };
   const getAllEmployees = async () => {
-    setPageLoading(true);
     try {
+      setPageLoading(true);
       const response = await fetch(hosturl + endpoints.getemployees, {
         method: "GET",
         headers: {
@@ -32,7 +32,7 @@ export const EmployeeProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      // console.log(data);
+
       setEmployees(data);
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -139,6 +139,7 @@ export const EmployeeProvider = ({ children }) => {
     <EmployeeContext.Provider
       value={{
         employees,
+        pageLoading,
         unassignedLaptops,
         getUnassignedLaptops,
         getAllEmployees,

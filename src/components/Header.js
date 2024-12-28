@@ -59,15 +59,15 @@ export default function Navbar() {
   }, [isDarkMode]);
 
   return (
-    <>
-      <nav className=" z-10 dark:bg-black-950 bg-slate-50 bg-opacity-15  bg-glass fixed-top sticky top-0  text-slate-300 dark:text-slate-50 shadow-lg rounded-md ">
+    <div className="sticky top-0 m-0 p-0 z-30">
+      <nav className=" z-10 dark:bg-black-950 bg-slate-50 bg-opacity-15  bg-glass text-slate-300 dark:text-slate-50  ">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
             <Link to="/" className="w-auto text-blue-900 dark:text-blue-50">
               <FiHome size={30} />
             </Link>
 
-            <div className="sm:hidden absolute left-[40px] flex items-center">
+            <div className="md:hidden absolute left-[40px] flex items-center">
               <button
                 onClick={() => setIsOffcanvasOpen(true)}
                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none"
@@ -76,7 +76,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            <div className="hidden sm:block">
+            <div className="hidden md:block">
               <div className="flex space-x-4">
                 {user.role === "admin" &&
                   navigation.slice(0, 6).map((item) => (
@@ -172,45 +172,101 @@ export default function Navbar() {
 
       {isOffcanvasOpen && (
         <>
+          {/* Overlay */}
           <div
-            className="fixed  lg:hidden md:hidden inset-0 dark:bg-slate-950  opacity-50 z-40"
+            className="fixed md:hidden inset-0 dark:bg-slate-950 opacity-50 z-40"
             onClick={() => setIsOffcanvasOpen(false)}
           ></div>
 
-          <div className="fixed lg:hidden md:hidden inset-y-0 right-0 w-64 dark:bg-blue-950 bg-slate-50 shadow-lg z-50 overflow-y-auto">
+          {/* Off-canvas menu */}
+          <div
+            className={`fixed md:hidden inset-y-0 right-0 w-64 dark:bg-blue-950 bg-slate-50 shadow-lg z-50 overflow-y-auto transition-transform transform ${
+              isOffcanvasOpen ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
             <div className="p-4 flex justify-between items-center border-b dark:text-blue-400 text-blue-900">
               <h2 className="text-lg font-semibold">Menu</h2>
               <button
                 onClick={() => setIsOffcanvasOpen(false)}
-                className=" dark:text-blue-400 text-blue-900"
+                className="dark:text-blue-400 text-blue-900"
               >
                 <IoClose size={24} />
               </button>
             </div>
-            <div className="p-2">
-              {navigation.map((item) => (
-                <Link
-                  to={item.href}
-                  key={item.name}
+
+            {isOffcanvasOpen && (
+              <>
+                {/* Overlay */}
+                <div
+                  className="fixed md:hidden inset-0 dark:bg-slate-950 opacity-50 z-40"
                   onClick={() => setIsOffcanvasOpen(false)}
-                  className={classNames(
-                    ((currentPath === item.href ||
-                      currentPath.startsWith(item.href)) &&
-                      item.href !== "/") ||
-                      (currentPath === "/" && item.href === "/")
-                      ? "text-blue-600 underline dark:text-slate-100 bg-indigo-100 dark:bg-black font-bold"
-                      : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30",
-                    "dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
-                  )}
+                ></div>
+
+                {/* Off-canvas menu */}
+                <div
+                  className={`fixed inset-y-0 right-0 w-64 bg-slate-50 dark:bg-blue-950 shadow-lg z-50 overflow-y-auto transition-transform transform ${
+                    isOffcanvasOpen ? "translate-x-0" : "translate-x-full"
+                  } duration-300 ease-in-out`}
                 >
-                  {item.icon}
-                  {item.name}
-                </Link>
-              ))}
-            </div>
+                  <div className="p-4 flex justify-between items-center border-b dark:text-blue-400 text-blue-900">
+                    <h2 className="text-lg font-semibold">Menu</h2>
+                    <button
+                      onClick={() => setIsOffcanvasOpen(false)}
+                      className="dark:text-blue-400 text-blue-900"
+                    >
+                      <IoClose size={24} />
+                    </button>
+                  </div>
+
+                  <div className="p-2">
+                    {user?.role === "admin" &&
+                      navigation.slice(0, 6).map((item) => (
+                        <Link
+                          to={item.href}
+                          key={item.name}
+                          onClick={() => setIsOffcanvasOpen(false)}
+                          className={classNames(
+                            ((currentPath === item.href ||
+                              currentPath.startsWith(item.href)) &&
+                              item.href !== "/") ||
+                              (currentPath === "/" && item.href === "/")
+                              ? "text-blue-600 underline dark:text-slate-100 bg-indigo-100 dark:bg-black font-bold"
+                              : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30",
+                            "dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                          )}
+                        >
+                          {item.icon}
+                          {item.name}
+                        </Link>
+                      ))}
+                    {user?.role === "employee" &&
+                      navigation.slice(6) &&
+                      navigation.map((item) => (
+                        <Link
+                          to={item.href}
+                          key={item.name}
+                          onClick={() => setIsOffcanvasOpen(false)}
+                          className={classNames(
+                            ((currentPath === item.href ||
+                              currentPath.startsWith(item.href)) &&
+                              item.href !== "/") ||
+                              (currentPath === "/" && item.href === "/")
+                              ? "text-blue-600 underline dark:text-slate-100 bg-indigo-100 dark:bg-black font-bold"
+                              : "text-slate-600 dark:text-slate-300 dark:hover:bg-blue-600 dark:hover:bg-opacity-30",
+                            "dark:text-slate-50 rounded-md px-3 py-2 text-sm font-medium flex items-center gap-1 mt-2"
+                          )}
+                        >
+                          {item.icon}
+                          {item.name}
+                        </Link>
+                      ))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }

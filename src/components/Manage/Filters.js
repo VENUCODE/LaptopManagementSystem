@@ -47,10 +47,11 @@ const Filters = ({ laptops, setCurrentLaptops }) => {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col md:flex-row justify-center items-center gap-4 mb-4">
-        <div className="flex-grow w-full md:w-1/2">
-          <p className="text-xs text-gray-900 dark:text-white">Search</p>
+    <div className="px-2 md:px-0">
+      {/* Container for Filters */}
+      <div className="flex flex-col md:flex-row justify-between gap-4 mb-4 items-stretch md:items-center">
+        {/* Search Bar */}
+        <div className="w-full md:w-1/2">
           <input
             type="search"
             value={filters.search}
@@ -60,11 +61,13 @@ const Filters = ({ laptops, setCurrentLaptops }) => {
           />
         </div>
 
-        <div className="relative flex-grow w-full md:w-1/2 pt-4 gap-2 flex flex-col md:flex-row items-center">
+        {/* Dropdown and Switch Container */}
+        <div className="w-full md:w-1/2 flex flex-col md:flex-row gap-4">
+          {/* Dropdown */}
           <select
             value={filters.laptopStatus}
             onChange={(e) => handleFilterChange("laptopStatus", e.target.value)}
-            className="w-full md:w-2/3 p-2 text-sm text-indigo-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-900 rounded-md outline outline-2 outline-gray-300 dark:outline-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+            className="w-full md:w-1/2 p-2 text-sm text-indigo-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-900 rounded-md outline outline-2 outline-gray-300 dark:outline-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
           >
             <option value="">All</option>
             <option value="available">Available</option>
@@ -72,15 +75,18 @@ const Filters = ({ laptops, setCurrentLaptops }) => {
             <option value="assigned">Assigned</option>
           </select>
 
-          <Switch
-            checked={filters.sortOrder === "asc"}
-            onChange={(checked) =>
-              handleFilterChange("sortOrder", checked ? "asc" : "desc")
-            }
-            className="min-w-[100px] max-w-[200px] mt-2 md:mt-0 shadow-md outline outline-1 outline-indigo-500 shadow-slate-500 dark:shadow-indigo-500"
-            checkedChildren="Newest"
-            unCheckedChildren="Oldest"
-          />
+          {/* Switch */}
+          <div className="w-full md:w-1/2 flex items-center justify-center md:justify-start">
+            <Switch
+              checked={filters.sortOrder === "asc"}
+              onChange={(checked) =>
+                handleFilterChange("sortOrder", checked ? "asc" : "desc")
+              }
+              className="shadow-md outline outline-1 outline-indigo-500 shadow-slate-500 dark:shadow-indigo-500"
+              checkedChildren="Newest"
+              unCheckedChildren="Oldest"
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ export default function LoginComponent() {
         exit="exit"
         transition={{ duration: 0.5 }}
         variants={pageVariant}
-        className="h-screen flex justify-center items-center p-0 m-0 relative overflow-hidden bg-slate-200"
+        className="h-screen flex justify-center items-center m-0 py-2 relative overflow-hidden bg-slate-200"
       >
         <div className="absolute inset-0 z-2">
           <div className="absolute top-1/2 left-1/5 w-96 h-96 bg-blue-400 opacity-30 rounded-full blur-2xl"></div>
@@ -32,7 +32,7 @@ export default function LoginComponent() {
         </div>
 
         <div
-          className="w-full mx-5 lg:w-1/3 md:mx-1/3 lg:py-10 px-10 py-8 h-100 relative z-10 bg-slate-50/50  outline outline-2 outline-violet-300/50 shadow-inner shadow-slate-50 rounded-md"
+          className="w-full mx-5 py-4 lg:w-1/3 md:mx-1/3 lg:py-10 px-10  h-full relative z-10 bg-slate-50/50  outline outline-2 outline-violet-300/50 shadow-inner shadow-slate-50 rounded-md"
           style={{ backdropFilter: "blur(20px)" }}
         >
           <div className="sm:mx-auto sm:container sm:max-w-sm">

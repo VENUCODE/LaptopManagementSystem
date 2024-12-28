@@ -19,7 +19,11 @@ function PaginatedTable({ items, itemsPerPage, columns, action }) {
         <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             {columns.map((column) => (
-              <th key={column} scope="col" className="px-6 py-3">
+              <th
+                key={column}
+                scope="col"
+                className={`px-6 py-3 ${column === "email" ? "hidden sm:block" : ""}`}
+              >
                 {column.charAt(0).toUpperCase() + column.slice(1)}
               </th>
             ))}
@@ -37,7 +41,7 @@ function PaginatedTable({ items, itemsPerPage, columns, action }) {
               {columns.map((column, colIndex) => (
                 <td
                   key={colIndex}
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  className={`px-6 ${column === "email" ? "hidden sm:block" : ""} py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white`}
                 >
                   {item[column] !== undefined ? item[column] : "-"}
                 </td>

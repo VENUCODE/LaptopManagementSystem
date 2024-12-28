@@ -15,4 +15,6 @@ export const endpoints = {
   getrequests: "/api/admin/requests",
   requestAction: "/api/admin/request-action/",
   issueUpdate: "/api/admin/issue/",
+  getLogs: "/api/admin/getlogs",
+  getcounts: "/api/admin/counts",
 };

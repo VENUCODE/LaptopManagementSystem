@@ -3,16 +3,69 @@
 * {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  border-radius: 0;
   transition:
     background-color 0.2s,
     color 0.05s;
 }
+
+
+
+body {
+  background: rgb(243, 244, 246), ;
+}
+
+.dark body {
+  background: rgb(4, 11, 34);
+}
+
 body {
   overflow-x: hidden;
 }
+
+
+
+.scroll-x-hidden {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-x-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .bg-glass {
   backdrop-filter: blur(40px);
 }
+
 .custom-card {
   backdrop-filter: blur(20px);
+}
+
+.loader {
+  animation:
+    backgrounds 1s linear infinite,
+    background 2s ease-in-out infinite;
+  background: linear-gradient(90deg,
+      rgba(75, 0, 130, 1) 0%,
+      rgba(75, 0, 10, 1) 100%);
+  background-size: 400px 400px;
+  background-position: 0% 0%;
+}
+
+@keyframes backgrounds {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 0%;
+  }
+
+  100% {
+    background-position: 0% 0%;
+  }
 }

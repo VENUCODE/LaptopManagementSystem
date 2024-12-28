@@ -14,11 +14,9 @@ const ManageLaptops = () => {
       exit="exit"
       transition={{ duration: 0.5 }}
       variants={pageVariant}
-      className="min-h-screen flex flex-col container  mx-auto mt-10 shadow-md shadow-gray-300/50 dark:shadow-indigo-300/50  "
+      className="min-h-screen flex flex-col container  mx-auto m-0 shadow-md shadow-gray-300/50 dark:shadow-indigo-300/50  "
     >
-      {/* Header Section */}
-      <div className="bg-glass  ">
-        {/* Row for Heading and Tabs */}
+      <div className="mt-4 ">
         <div className="container-fluid relative ">
           <div className="flex justify-between flex-row items-center  bg-white bg-glass dark:bg-slate-950    rounded-t-md">
             <div className="text-2xl text-balance font-semibold text-blue-400 dark:text-blue-500 ms-4 ">
