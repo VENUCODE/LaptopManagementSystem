@@ -1,4 +1,6 @@
-export const hosturl = "http://localhost:3300";
+// export const hosturl = "http://localhost:3300";
+export const hosturl = "https://lms-backend-d98t.onrender.com";
+
 export const endpoints = {
   login: "/api/auth/login",
   //ADMIN ROUTES
