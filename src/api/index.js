@@ -24,6 +24,6 @@ export const endpoints = {
   getlaptopAssinged: "/api/employee-action/assigned",
   reportIssue: "/api/employee-action/report-issue",
   returnLaptop: "/api/employee-action/return",
-  getMyReports:"/api/employee-action/reports",
-  getEmployeeAssigned:"/api/employee-actions/history"
+  getMyReports: "/api/employee-action/reports",
+  getEmployeeAssigned: "/api/employee-action/history",
 };

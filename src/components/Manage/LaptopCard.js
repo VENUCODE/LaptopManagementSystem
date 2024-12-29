@@ -5,6 +5,7 @@ import {
   FaTrashAlt,
   FaCalendarAlt,
   FaBarcode,
+  FaSpinner,
 } from "react-icons/fa";
 import ReactTimeago from "react-timeago";
 import { useLaptop } from "../../context/useLaptops";
@@ -12,6 +13,8 @@ import { Modal } from "antd";
 import LaptopView from "./LaptopView";
 import UpdateLaptop from "./UpdateLaptop";
 
+import { motion } from "framer-motion";
+import { cardVariant } from "../../variants";
 const LaptopCard = ({ laptop }) => {
   const [loading, setLoading] = useState(false);
   const { deleteLaptop } = useLaptop();
@@ -44,7 +47,34 @@ const LaptopCard = ({ laptop }) => {
 
   return (
     <>
-      <div className="w-full sm:w-[250px] md:w-[300px] lg:w-[300px] xl:w-[300px] 2xl:w-[300px] max-w-[300px] min-w-[250px] rounded overflow-hidden dark:outline-2 outline-blue-500 hover:outline hover:outline-gray-200 custom-bg p-4 dark:shadow-inner shadow-sm dark:shadow-blue-600/40 dark:hover:shadow-md dark:hover:bg-blue-800 dark:hover:bg-opacity-30 dark:hover:shadow-blue-900/40 dark:hover:outline dark:hover:outline-blue-600 hover:bg-slate-50 hover:shadow-md hover:bg-opacity-30">
+      <motion.div
+        initial={{ opacity: 0, scale: 0, y: 100 }}
+        whileInView={{
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          transition: {
+            duration: 0.3,
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            delay: 0.1,
+          },
+        }}
+        exit={{
+          opacity: 0,
+          scale: 0,
+          y: 100,
+          transition: {
+            duration: 0.3,
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            delay: 0.1,
+          },
+        }}
+        className="w-full sm:w-[250px] md:w-[300px] lg:w-[300px] xl:w-[300px] 2xl:w-[300px] max-w-[300px] min-w-[250px] rounded overflow-hidden dark:outline-2 outline-blue-500 hover:outline hover:outline-gray-200 custom-bg p-4 dark:shadow-inner shadow-sm dark:shadow-blue-600/40 dark:hover:shadow-md dark:hover:bg-blue-800 dark:hover:bg-opacity-30 dark:hover:shadow-blue-900/40 dark:hover:outline dark:hover:outline-blue-600 hover:bg-slate-50 hover:shadow-md hover:bg-opacity-30"
+      >
         <div className="px-6 py-4">
           {laptop.status && (
             <span
@@ -123,7 +153,7 @@ const LaptopCard = ({ laptop }) => {
             <FaTrashAlt className=" mx-auto" size={15} />
           </button>
         </div>
-      </div>
+      </motion.div>
 
       <Modal footer={null} open={open} onCancel={closeModal} destroyOnClose>
         {action === "view" && <LaptopView laptop={laptop} />}
@@ -138,9 +168,15 @@ const LaptopCard = ({ laptop }) => {
             <div className="flex gap-4">
               <button
                 onClick={handleDelete}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 flex flex-row gap-2 justify-center rounded"
               >
-                Yes, Delete
+                {loading && (
+                  <>
+                    <FaSpinner className="animate-spin" size={30} />{" "}
+                    Deleteing...
+                  </>
+                )}
+                {!loading && "Yes, Delete"}
               </button>
               <button
                 onClick={closeModal}

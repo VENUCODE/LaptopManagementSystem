@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { loadingVariant, pageVariant } from "../../variants";
+import { loadingVariant, pageVariant, rowVariants } from "../../variants";
 
 import { TableLoader } from "../Loaders/Loader";
 import PaginateData from "../PaginateData";
-
+import { FaLaptopFile } from "react-icons/fa6";
+import { Divider } from "antd";
 const EmployeeRequests = ({ data, loading }) => {
-  const [requests, setRequests] = useState([]);
   const [filteredRequests, setfilteredRequests] = useState([]);
   const [curRequests, setCurRequests] = useState([]);
   const handleSearch = (e) => {
@@ -17,11 +17,11 @@ const EmployeeRequests = ({ data, loading }) => {
         issue.description.toLowerCase().includes(term) ||
         issue.createdAt.includes(term)
     );
-    setfilteredRequests(filtered);
+    setCurRequests(filtered);
   };
   useEffect(() => {
-    setRequests(data);
-    setfilteredRequests(data);
+    // setRequests(data);
+    console.log(data);
   }, [data]);
 
   return (
@@ -33,7 +33,7 @@ const EmployeeRequests = ({ data, loading }) => {
           initial="initial"
           animate="animate"
           exit="exit"
-          className="flex justify-center items-center w-full h-screen px-2 md:px-0 overflow-x-hidden"
+          className="flex justify-center items-center w-full h-screen px-0 sm:px-2 md:px-0 overflow-x-hidden"
         >
           <TableLoader cols={3} />
         </motion.div>
@@ -44,8 +44,16 @@ const EmployeeRequests = ({ data, loading }) => {
           exit="exit"
           transition={{ duration: 0.5 }}
           variants={pageVariant}
-          className="container mx-auto p-6 flex flex-col"
+          className="container mx-auto px-0  flex flex-col"
         >
+          <div className="text-2xl flex flex-row gap-2 sm:text-4xl ff-m  py-4 text-balance  font-bold drop-shadow-md  text-teal-400 dark:text-teal-500 ">
+            <FaLaptopFile
+              size={40}
+              className="text-teal-500 dark:text-teal-500"
+            />
+            My Requests
+          </div>
+
           <div className="mb-4">
             <p className="text-sm text-gray-900 dark:text-white mb-2">
               Search in requests
@@ -58,7 +66,7 @@ const EmployeeRequests = ({ data, loading }) => {
             />
           </div>
 
-          <div className="relative w-full overflow-x-auto rounded-t-md container mx-auto min-h-screen">
+          <div className="relative w-full overflow-x-auto rounded-t-md container px-0 mx-auto min-h-screen">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -75,9 +83,14 @@ const EmployeeRequests = ({ data, loading }) => {
               </thead>
               <tbody>
                 {curRequests &&
-                  curRequests?.map((request) => (
-                    <tr
-                      key={request._id}
+                  curRequests?.map((request, index) => (
+                    <motion.tr
+                      key={index}
+                      custom={index}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={rowVariants}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -99,23 +112,30 @@ const EmployeeRequests = ({ data, loading }) => {
                           {request.status}
                         </span>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
                 {curRequests && curRequests?.length === 0 && (
-                  <tr>
+                  <motion.tr
+                    key={0}
+                    custom={0}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={rowVariants}
+                  >
                     <td
                       colSpan="6"
                       className="text-center py-4 text-gray-500 dark:text-gray-400"
                     >
-                      No Requests Found
+                      No requests found
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>
             <PaginateData
-              items={filteredRequests}
-              itemsPerPage={3}
+              items={data}
+              itemsPerPage={10}
               setCurrentItems={setCurRequests}
             />
           </div>

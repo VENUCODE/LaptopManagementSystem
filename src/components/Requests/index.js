@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { loadingVariant, pageVariant } from "../../variants";
+import { loadingVariant, pageVariant, rowVariants } from "../../variants";
 import { endpoints, hosturl } from "../../api";
 import ReactTimeago from "react-timeago";
 import { useUser } from "../../context/useUser";
@@ -106,6 +106,10 @@ const LaptopRequests = () => {
           variants={loadingVariant}
           className="container mx-auto p-4 md:px-0 flex flex-col"
         >
+          {" "}
+          <div className="text-2xl sm:text-4xl ff-m  py-4 text-balance  font-extrabold drop-shadow-md  text-teal-400 dark:text-teal-500 ">
+            Laptop Requests
+          </div>
           <div className="mb-4">
             <p className="text-sm text-gray-900 dark:text-white mb-2">
               Search Laptop requests
@@ -117,7 +121,6 @@ const LaptopRequests = () => {
               className="min-w-[50%] max-w-[400px] w-[90%] p-2 text-sm text-indigo-700 outline outline-2 dark:outline-gray-700 outline-gray-300 dark:text-gray-200 bg-gray-200 dark:bg-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
             />
           </div>
-
           <div className="relative w-full overflow-x-auto rounded-t-md container mx-auto min-h-screen">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
@@ -142,9 +145,14 @@ const LaptopRequests = () => {
               </thead>
               <tbody>
                 {filteredRequests &&
-                  filteredRequests?.map((request) => (
-                    <tr
-                      key={request._id}
+                  filteredRequests?.map((request, index) => (
+                    <motion.tr
+                      key={index}
+                      custom={index}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={rowVariants}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -186,17 +194,24 @@ const LaptopRequests = () => {
                           Reject
                         </button>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
                 {filteredRequests && filteredRequests.length === 0 && (
-                  <tr>
+                  <motion.tr
+                    key={0}
+                    custom={0}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={rowVariants}
+                  >
                     <td
                       colSpan="6"
                       className="text-center py-4 text-gray-500 dark:text-gray-400"
                     >
                       No laptop requests found.
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>

@@ -89,6 +89,9 @@ const AssignLaptop = () => {
           variants={pageVariant}
           className="container mx-auto p-2 sm:px-6 flex flex-col min-h-screen"
         >
+          <div className="text-2xl sm:text-4xl ff-m  py-4 text-balance  font-extrabold drop-shadow-md  text-amber-400 dark:text-amber-500 ">
+            Assign Laptops
+          </div>
           <div className="container  sm:mx-auto my-3 px-2 sm:px-0 ">
             <p className="text-sm text-gray-900 dark:text-white mb-1">
               Search Employee

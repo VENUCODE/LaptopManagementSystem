@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { loadingVariant, pageVariant } from "../../variants";
+import { loadingVariant, pageVariant, rowVariants } from "../../variants";
 import { endpoints, hosturl } from "../../api";
 import ReactTimeago from "react-timeago";
 import { useUser } from "../../context/useUser";
 import { message, Skeleton } from "antd";
 import { TableLoader } from "../Loaders/Loader";
+import { FaSpinner } from "react-icons/fa";
 
 const LaptopIssues = () => {
   const [issues, setIssues] = useState([]);
   const [filteredIssues, setFilteredIssues] = useState([]);
   const { authToken } = useUser();
   const [loading, setLoading] = useState(false);
+  const [issueActionLoading, setIssueActionLoading] = useState(null);
   const getIssues = async () => {
     try {
       setLoading(true);
@@ -33,6 +35,7 @@ const LaptopIssues = () => {
   };
   const handleIssue = async (issueId, status, laptop) => {
     try {
+      setIssueActionLoading(issueId);
       const response = await fetch(hosturl + endpoints.issueUpdate + issueId, {
         method: "PATCH",
         headers: {
@@ -50,6 +53,8 @@ const LaptopIssues = () => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIssueActionLoading(null);
     }
   };
 
@@ -94,6 +99,9 @@ const LaptopIssues = () => {
           variants={pageVariant}
           className="container mx-auto p-6 flex flex-col"
         >
+          <div className="text-2xl sm:text-4xl ff-m  py-4 text-balance  font-extrabold drop-shadow-md  text-red-400 dark:text-red-500 ">
+            Laptop Reports
+          </div>
           <div className="mb-4">
             <p className="text-sm text-gray-900 dark:text-white mb-2">
               Search Laptop Issues
@@ -132,9 +140,14 @@ const LaptopIssues = () => {
               </thead>
               <tbody>
                 {filteredIssues &&
-                  filteredIssues?.map((issue) => (
-                    <tr
-                      key={issue._id}
+                  filteredIssues?.map((issue, index) => (
+                    <motion.tr
+                      key={index}
+                      custom={index}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={rowVariants}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -169,6 +182,10 @@ const LaptopIssues = () => {
                       <td className="px-6 py-4 flex flex-col gap-y-2">
                         {issue.status === "raised" ? (
                           <button
+                            disabled={
+                              issueActionLoading &&
+                              issueActionLoading === issue._id
+                            }
                             onClick={() =>
                               handleIssue(
                                 issue._id,
@@ -178,10 +195,25 @@ const LaptopIssues = () => {
                             }
                             className="paginate-btn text-xs w-full outline     outline-2  py-1 flex justify-center outline-blue-500  dark:text-blue-400 dark:bg-blue-400/40 dark:hover:bg-blue-400 dark:hover:text-white"
                           >
-                            Take Action
+                            {issueActionLoading &&
+                            issueActionLoading === issue._id ? (
+                              <span className="flex flex-row gap-2 justify-center items-center mx-0 px-0">
+                                <FaSpinner
+                                  className="animate-spin "
+                                  size={25}
+                                />
+                                Updating.....
+                              </span>
+                            ) : (
+                              "Take Action"
+                            )}
                           </button>
                         ) : (
                           <button
+                            disabled={
+                              issueActionLoading &&
+                              issueActionLoading === issue._id
+                            }
                             onClick={() =>
                               handleIssue(
                                 issue._id,
@@ -191,21 +223,39 @@ const LaptopIssues = () => {
                             }
                             className="paginate-btn text-xs w-full outline   outline-2 py-1 flex justify-center outline-green-500 dark:text-green-400 dark:bg-green-400/40 dark:hover:bg-green-400 dark:hover:text-white"
                           >
-                            Resolve
+                            {issueActionLoading &&
+                            issueActionLoading === issue._id ? (
+                              <span className="flex flex-row gap-2 justify-center items-center mx-0 px-0">
+                                <FaSpinner
+                                  className="animate-spin "
+                                  size={25}
+                                />
+                                Resolving .....
+                              </span>
+                            ) : (
+                              "Resolve"
+                            )}
                           </button>
                         )}
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
                 {filteredIssues && filteredIssues.length === 0 && (
-                  <tr>
+                  <motion.tr
+                    key={0}
+                    custom={0}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={rowVariants}
+                  >
                     <td
                       colSpan="6"
                       className="text-center py-4 text-gray-500 dark:text-gray-400"
                     >
                       No laptop issues found.
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>

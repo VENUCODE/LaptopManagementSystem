@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FiMonitor, FiTag, FiHash, FiCalendar } from "react-icons/fi";
 import { MdComputer } from "react-icons/md";
 import { useLaptop } from "../../context/useLaptops";
-
+import { motion } from "framer-motion";
 const inputFields = [
   {
     id: "brand",
@@ -52,7 +52,34 @@ const AddLaptop = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 rounded-md bg-transparent">
+    <motion.div
+      initial={{ opacity: 0, scale: 0, y: 100 }}
+      whileInView={{
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+          duration: 0.5,
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          delay: 0.1,
+        },
+      }}
+      exit={{
+        opacity: 0,
+        scale: 0,
+        y: 100,
+        transition: {
+          duration: 0.5,
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          delay: 0.1,
+        },
+      }}
+      className="max-w-4xl mx-auto mt-10 p-6 rounded-md bg-transparent"
+    >
       <h2 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-white flex items-center gap-2">
         <MdComputer className="text-blue-500 text-3xl" /> Add Laptop
       </h2>
@@ -100,7 +127,7 @@ const AddLaptop = () => {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

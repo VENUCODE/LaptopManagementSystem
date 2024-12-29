@@ -13,6 +13,7 @@ import Dashboard from "./components/Employee";
 import RequestLaptop from "./components/Employee/RequestLaptop";
 import { EmployeeLaptopsProvider } from "./context/useEmployeeLaptops";
 import EmployeeReports from "./components/Employee/AllReports";
+import Domloader from "./DomLoader";
 
 const Overview = lazy(() => import("./components/OverView"));
 const ManageLaptops = lazy(() => import("./components/Manage"));
@@ -23,6 +24,7 @@ const Reports = lazy(() => import("./components/Reports"));
 const Logs = lazy(() => import("./components/Logs"));
 const LaptopRequests = lazy(() => import("./components/Requests"));
 const Login = lazy(() => import("./components/Login"));
+
 function AnimatedRoutes() {
   const { isAuthenticated, user } = useUser();
   const location = useLocation();
@@ -72,7 +74,9 @@ function AnimatedRoutes() {
             path="/dashboard"
             element={
               <EmployeeLaptopsProvider>
-                <Dashboard />
+                <Suspense fallback={<Domloader />}>
+                  <Dashboard />
+                </Suspense>
               </EmployeeLaptopsProvider>
             }
           />

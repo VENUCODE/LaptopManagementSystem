@@ -11,32 +11,34 @@ const LaptopCard = ({ laptop }) => {
     await returnLaptop(laptopId);
   };
   return (
-    <div className="px-10 py-4 bg-slate-50 w-full relative dark:bg-green-200/10 rounded-lg shadow-xl shadow-slate-300 dark:shadow-green-200/20 dark:outline dark:outline-1 dark:outline-green-200/40 transition-colors duration-300">
+    <div className="px-10 py-6 flex flex-col justify-between bg-slate-50 w-full relative  hover:shadow-xl dark:bg-green-200/10 rounded-lg shadow-lg shadow-slate-300 dark:shadow-green-200/20 dark:outline dark:outline-1 dark:outline-green-200/40 transition-all duration-300">
       <span
-        className={`px-2 absolute text-xs right-4 text-white rounded-full shadow-xl animate-bounce  font-semibold ${laptop?.status === "assigned" ? "bg-green-500  shadow-green-500 " : laptop?.status === "available" ? "bg-orange-500  shadow-orange-500 " : "bg-red-500  shadow-red-500 "}`}
+        className={`px-2 absolute text-xs right-0 -top-[5px] text-white rounded-full shadow-xl animate-bounce  font-semibold ${laptop?.status === "assigned" ? "bg-green-500  shadow-green-500 " : laptop?.status === "available" ? "bg-orange-500  shadow-orange-500 " : "bg-red-500  shadow-red-500 "}`}
       >
         {laptop?.status}
       </span>
-      <h2 className="text-xl ff-m font-semibold text-gray-900 dark:text-gray-100 mb-2">
-        {laptop?.brand} -{laptop?.model}
-      </h2>
+      <div className="">
+        <h2 className="text-xl ff-m font-semibold text-gray-900 dark:text-gray-100 mb-2">
+          {laptop?.brand} -{laptop?.model}
+        </h2>
 
-      <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
-        <span className="font-semibold ff-m ">Serial Number:</span>{" "}
-        {laptop?.serialNumber}
-      </p>
-      <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
-        <span className="font-semibold ff-m ">PurchaseDate:</span>{" "}
-        {new Date(laptop.purchaseDate).toLocaleDateString()}
-      </p>
-      <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
-        <span className="font-semibold ff-m ">Assigned On:</span>{" "}
-        {new Date(laptop.createdAt).toLocaleDateString()}
-      </p>
-      <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
-        <span className="font-semibold ff-m ">Using Since:</span>{" "}
-        <ReactTimeago date={new Date(laptop?.createdAt)} />
-      </p>
+        <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
+          <span className="font-semibold ff-m ">Serial Number:</span>{" "}
+          {laptop?.serialNumber}
+        </p>
+        <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
+          <span className="font-semibold ff-m ">PurchaseDate:</span>{" "}
+          {new Date(laptop.purchaseDate).toLocaleDateString()}
+        </p>
+        <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
+          <span className="font-semibold ff-m ">Assigned On:</span>{" "}
+          {new Date(laptop.createdAt).toLocaleDateString()}
+        </p>
+        <p className="tracking-normal mt-2 text-sm text-gray-700 dark:text-slate-200">
+          <span className="font-semibold ff-m ">Using Since:</span>{" "}
+          <ReactTimeago date={new Date(laptop?.createdAt)} />
+        </p>
+      </div>
       <div className="py-2 flex gap-2 mt-3">
         <button
           onClick={() => {

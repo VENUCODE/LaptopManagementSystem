@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { loadingVariant, pageVariant } from "../../variants";
+import { loadingVariant, pageVariant, rowVariants } from "../../variants";
 import { useUser } from "../../context/useUser";
 import { endpoints, hosturl } from "../../api";
 import { actionColors, categoryColors } from "./cssUtils";
@@ -15,7 +15,6 @@ const Logs = () => {
   const [currentPageData, setCurrentPageData] = useState([]);
   const { authToken } = useUser();
   const [loading, setLoading] = useState(false);
-
   const getLogs = async () => {
     try {
       setLoading(true);
@@ -70,8 +69,11 @@ const Logs = () => {
           exit="exit"
           transition={{ duration: 0.5 }}
           variants={pageVariant}
-          className="container mx-auto p-4  md:px-0 flex flex-col gap-6"
+          className=" mx-auto py-6 sm:container px-1 sm:px-0 flex flex-col gap-6"
         >
+          <div className="text-2xl sm:text-4xl ff-m  py-4 text-balance  font-extrabold drop-shadow-md text-indigo-400 dark:text-indigo-600 ms-4 ">
+            Log History
+          </div>
           <div className="w-full mb-4">
             <p className="text-sm text-gray-900 dark:text-white mb-1">
               Search Logs
@@ -84,7 +86,7 @@ const Logs = () => {
             />
           </div>
 
-          <div className="w-full overflow-x-auto bg-white dark:bg-gray-800 rounded-md shadow-md">
+          <div className="w-full overflow-x-auto bg-white dark:bg-gray-800 rounded-md shadow-md scroll-x-hidden">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -107,8 +109,13 @@ const Logs = () => {
               </thead>
               <tbody>
                 {currentPageData?.map((log, index) => (
-                  <tr
-                    key={log._id}
+                  <motion.tr
+                    key={index}
+                    custom={index}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={rowVariants}
                     className={
                       index % 2 === 0
                         ? "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
@@ -134,17 +141,24 @@ const Logs = () => {
                     <td className="px-4  py-2 md:py-4 text-center text-xs ">
                       <ReactTimeago date={new Date(log.loggedAt)} />
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
                 {currentPageData.length === 0 && (
-                  <tr>
+                  <motion.tr
+                    key={0}
+                    custom={0}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    variants={rowVariants}
+                  >
                     <td
-                      colSpan="5"
-                      className="text-c2 py-4 mder s4:py-2 text-gray-500 dark:text-gray-400"
+                      colSpan="6"
+                      className="text-center py-4 text-gray-500 dark:text-gray-400"
                     >
-                      No logs found.
+                      No log data found
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>

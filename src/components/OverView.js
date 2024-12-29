@@ -111,14 +111,10 @@ export default function Grid() {
       animate="animate"
       exit="exit"
       transition={{ duration: 1, delay: 0.5 }}
-      className="py-8 sm:py-4 container-fluid custom-bg pattern-light dark:pattern-dark "
+      className="py-8 sm:py-4 container-fluid custom-bg pattern-light dark:pattern-dark"
     >
-      {/* <p className="md:text-4xl text-md text-center heading-1">
-        Inventory Overview
-      </p> */}
-
       <div className="container mx-auto mt-2 mb-8">
-        <p className="text-2xl text-start flex flex-row items-end gap-3 text-cyan-400 dark:text-indigo-50 font-semibold mt-2 mb-6">
+        <p className="text-2xl text-start flex flex-row items-end gap-3 font-bold mt-2 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-600 dark:from-cyan-400 dark:to-blue-600">
           <FaComputer size={40} className="text-cyan-700 dark:text-blue-600" />
           Laptops Overview
         </p>
@@ -156,7 +152,7 @@ export default function Grid() {
             />
           </div>
         </div>
-        <p className="text-2xl text-start flex flex-row items-center gap-3 text-indigo-400 dark:text-indigo-50 font-semibold mt-8 mb-6">
+        <p className="text-2xl text-start flex flex-row items-center gap-3 font-bold mt-8 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-amber-400 to-rose-600 dark:from-amber-400 dark:to-rose-600">
           <FaUserPen size={40} className="text-amber-700 dark:text-rose-600" />
           Issues Overview
         </p>
@@ -187,7 +183,7 @@ export default function Grid() {
             />
           </div>
         </div>
-        <p className="text-2xl text-start flex flex-row items-end gap-3 text-indigo-400 dark:text-indigo-50 font-semibold mt-8 mb-6">
+        <p className="text-2xl text-start flex flex-row items-end gap-3 font-bold mt-8 mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-600 dark:from-indigo-400 dark:to-blue-600">
           <FaFileInvoice
             size={30}
             className="text-indigo-700 dark:text-blue-600"

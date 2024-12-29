@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
+import { motion } from "framer-motion";
 
+import { rowVariants } from "../variants";
 function PaginatedTable({ items, itemsPerPage, columns, action }) {
   const [itemOffset, setItemOffset] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(""); // State for selected option
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
-
   const pageCount = Math.ceil(items.length / itemsPerPage);
 
   const handlePageClick = (event) => {
@@ -34,7 +36,12 @@ function PaginatedTable({ items, itemsPerPage, columns, action }) {
         </thead>
         <tbody>
           {currentItems.map((item, rowIndex) => (
-            <tr
+            <motion.tr
+              custom={rowIndex}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={rowVariants}
               key={rowIndex}
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
@@ -46,13 +53,30 @@ function PaginatedTable({ items, itemsPerPage, columns, action }) {
                   {item[column] !== undefined ? item[column] : "-"}
                 </td>
               ))}
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <td className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <button className="action-btn" onClick={() => action(item._id)}>
                   View
                 </button>
               </td>
-            </tr>
+            </motion.tr>
           ))}
+          {currentItems?.length === 0 && (
+            <motion.tr
+              key={0}
+              custom={0}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={rowVariants}
+            >
+              <td
+                colSpan="6"
+                className="text-center py-4 text-gray-500 dark:text-gray-400"
+              >
+                No Employees Found
+              </td>
+            </motion.tr>
+          )}
         </tbody>
       </table>
 

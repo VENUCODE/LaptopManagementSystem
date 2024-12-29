@@ -4,6 +4,7 @@ import { FaSpinner } from "react-icons/fa";
 import { useUser } from "../../context/useUser";
 import { endpoints, hosturl } from "../../api";
 import EmployeeRequests from "./AllRequests";
+import { FaLaptopFile } from "react-icons/fa6";
 
 const RequestLaptop = () => {
   const [description, setDescription] = useState("");
@@ -63,14 +64,15 @@ const RequestLaptop = () => {
     getMyrequest();
   }, [getMyrequest]);
   return (
-    <div className="min-h-screen px-10 py-4 bg-slate-50 w-full relative dark:bg-green-200/10 rounded-lg shadow-xl shadow-slate-300 dark:shadow-green-200/20 dark:outline dark:outline-1 dark:outline-green-200/40 transition-colors duration-300">
-      <form
-        onSubmit={handleRequest}
-        className="container  px-0 sm:px-10 mx-auto"
-      >
-        <h2 className="text-xl ff-m font-semibold text-gray-900 dark:text-gray-100 mb-2">
-          Request a Laptop
-        </h2>
+    <div className="min-h-screen px-4 sm:px-10 py-4 bg-slate-50 w-full relative dark:bg-green-200/10 rounded-lg shadow-xl shadow-slate-300 dark:shadow-green-200/20 dark:outline dark:outline-1 dark:outline-green-200/40 transition-colors duration-300">
+      <div className="flex my-4 ms-2 sm:ms-16 bg-gradient-to-r from-indigo-500/80 to-indigo-900/80 bg-clip-text  sm:ms-4 drop-shadow-xl flex-row gap-3 justify-start items-center text-transparent text-[2rem] font-bold ">
+        <FaLaptopFile
+          size={40}
+          className="text-indigo-500 dark:text-indigo-400"
+        />
+        REQUESTS LAPTOP
+      </div>
+      <form onSubmit={handleRequest} className="container  mx-auto">
         <textarea
           className="w-full required:border-red-500 p-2 mt-2 text-sm text-gray-700 dark:text-slate-200 bg-white dark:bg-slate-800 rounded-md shadow-md shadow-slate-300 dark:shadow-slate-700 outline-none focus:ring-2 focus:ring-green-500"
           rows="4"
@@ -94,7 +96,7 @@ const RequestLaptop = () => {
           )}
         </button>
       </form>
-      <div className="w-full h-full py-4">
+      <div className="w-full h-full py-4 px-0">
         <EmployeeRequests loading={pageLoading} data={myrequests} />
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { loadingVariant, pageVariant } from "../../variants";
+import { loadingVariant, pageVariant, rowVariants } from "../../variants";
 
 import { TableLoader } from "../Loaders/Loader";
 import { endpoints, hosturl } from "../../api";
@@ -75,6 +75,9 @@ const EmployeeReports = () => {
           variants={pageVariant}
           className="container mx-auto p-6 flex flex-col"
         >
+          <div className="text-2xl sm:text-4xl ff-m  py-4 text-balance  font-extrabold drop-shadow-md  text-red-400 dark:text-red-500 ">
+            My Reports
+          </div>
           <div className="mb-4">
             <p className="text-sm text-gray-900 dark:text-white mb-2">
               Search in reports
@@ -107,9 +110,14 @@ const EmployeeReports = () => {
               </thead>
               <tbody>
                 {currentReports &&
-                  currentReports?.map((report) => (
-                    <tr
-                      key={report._id}
+                  currentReports?.map((report, index) => (
+                    <motion.tr
+                      key={index}
+                      custom={index}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      variants={rowVariants}
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4">
@@ -153,11 +161,19 @@ const EmployeeReports = () => {
                             : new Date(report.resolvedAt).toLocaleDateString()}
                         </span>
                       </td>
-                    </tr>
+                    </motion.tr>
                   ))}
                 {currentReports && currentReports.length === 0 && (
-                  <tr>
-                    <td colSpan="6" className="text-center py-4">
+                  <motion.tr
+                    key={0}
+                    custom={0}
+                    initial="hidden"
+                    // animate="visible"
+                    whileInView="visible"
+                    exit="exit"
+                    variants={rowVariants}
+                  >
+                    <td colSpan="4" className="text-center py-4">
                       <span className="flex flex-row gap-3 justify-center items-center text-slate-400 text-[2rem] font-bold dark:text-indigo-300/60">
                         <FaExclamation
                           size={50}
@@ -166,7 +182,7 @@ const EmployeeReports = () => {
                         NO REPORTS YET
                       </span>
                     </td>
-                  </tr>
+                  </motion.tr>
                 )}
               </tbody>
             </table>

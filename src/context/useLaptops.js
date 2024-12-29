@@ -8,10 +8,11 @@ const LaptopContext = createContext();
 export const LaptopProvider = ({ children }) => {
   const [laptops, setLaptops] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [laptopLoading, setLaptopLoading] = useState(false);
   const { authToken } = useUser();
 
   const getAllLaptops = async () => {
-    setLoading(true);
+    setLaptopLoading(true);
     try {
       const response = await fetch(hosturl + endpoints.getlaptops, {
         method: "GET",
@@ -25,7 +26,7 @@ export const LaptopProvider = ({ children }) => {
     } catch (error) {
       console.error("Error fetching laptops:", error);
     } finally {
-      setLoading(false);
+      setLaptopLoading(false);
     }
   };
 
@@ -79,7 +80,7 @@ export const LaptopProvider = ({ children }) => {
         message.error("Laptop ID is required for deletion");
         return;
       }
-      setLoading && setLoading(true);
+      setLoading(id);
       const response = await fetch(`${hosturl}${endpoints.deletelaptop}${id}`, {
         method: "DELETE",
         headers: {
@@ -102,7 +103,7 @@ export const LaptopProvider = ({ children }) => {
       console.error("Delete Laptop Error:", error);
       message.error("Error deleting laptop: " + error.message, 2);
     } finally {
-      setLoading && setLoading(false);
+      setLoading(null);
     }
   };
 
@@ -147,6 +148,7 @@ export const LaptopProvider = ({ children }) => {
         addLaptop,
         deleteLaptop,
         updateLaptop,
+        laptopLoading,
       }}
     >
       {children}
