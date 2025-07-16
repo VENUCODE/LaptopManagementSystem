@@ -15,6 +15,24 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+   
+    // Define the ldfdr function
+    window.ldfdr = window.ldfdr || function () {
+      (window.ldfdr._q = window.ldfdr._q || []).push([].slice.call(arguments));
+    };
+
+    // Create the script element
+    const script = document.createElement('script');
+    script.src = 'https://sc.lfeeder.com/lftracker_v1_3P1w24dmAdzamY5n.js';
+    script.async = true;
+
+    // Append to document
+    document.head.appendChild(script);
+
+    // Cleanup script on unmount (optional)
+    return () => {
+      document.head.removeChild(script);
+    };
   }, [location]);
   return (
     <div className="custom-bg m-0 p-0">
